@@ -9,12 +9,12 @@ module Termworld
     def plant
       init
       if @user[:seeds] <= 0
-        puts "No seeds..."
+        twputs "No seeds..."
         return
       end
       @db.execute("insert into plants (growth, user_id) values (0, ?)", @user[:id])
       @db.execute("update users set seeds = seeds - 1 where id = ?", @user[:id])
-      puts "Planted!"
+      twputs "Planted!"
     end
 
     desc "harvest", "Harvest all grown plants"
@@ -24,7 +24,7 @@ module Termworld
         "select count(*) from plants where user_id = ? and growth >= ?", @user[:id], 30
       )[0][0]
       if grown_plants_num == 0
-        puts "No grown plants..."
+        twputs "No grown plants..."
         return
       end
       @db.execute("delete from plants where user_id = ? and growth >= ?", @user[:id], 30)
@@ -32,8 +32,8 @@ module Termworld
       @db.execute(
         "update users set money = money + ? where id = ?", earning_money, @user[:id]
       )
-      puts "Harvested #{grown_plants_num} plants!"
-      puts "and You have earned #{earning_money} money!"
+      twputs "Harvested #{grown_plants_num} plants!"
+      twputs "and You have earned #{earning_money} money!"
     end
 
     desc "farming", "Farming"
@@ -54,12 +54,12 @@ module Termworld
       farming_pid_file = Setup.class_eval("@@farming_pid_file")
       pid_path = "#{Dir::home}/#{home_directory}/#{farming_pid_file}"
       unless File.exists?(pid_path)
-        puts "Farming not working..."
+        twputs "Farming not working..."
         return
       end
       `kill $(cat #{pid_path})`
       `rm #{pid_path}`
-      puts "Stopped farming!"
+      twputs "Stopped farming!"
     end
 
     no_commands do
