@@ -26,9 +26,19 @@ module Termworld
           Dir::mkdir(".termworld")
         end
         Dir::chdir(".termworld")
+
+        db_init
+      end
+
+      def db_init
         db = SQLite3::Database.new "termworld.db"
         tables = [
-          "create table users (\n  id integer primary key\n);",
+          "create table users (\n" +
+          "  id integer primary key,\n" +
+          "  seeds integer default 0,\n" +
+          "  money integer default 0\n" +
+          ");",
+
           "create table plants (\n" +
           "  id integer primary key,\n" +
           "  growth integer default 0\n" +
@@ -37,8 +47,7 @@ module Termworld
         tables.each do |table|
           table_name = table.split(" ")[2]
           current_schema = `sqlite3 termworld.db '.schema #{table_name}'`
-          pp current_schema.empty?
-          # db.execute(table)
+          db.execute(table) if current_schema.empty?
         end
       end
     end
