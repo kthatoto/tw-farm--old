@@ -5,12 +5,18 @@ class Setup
   @@home_directory = ".termworld"
   @@config_file = "config.yml"
   @@database = "termworld.db"
-  def initialize
+  @@farming_pid_file = "farming.pid"
+  def initialize(daemon = false)
     Dir::chdir(Dir::home)
     unless Dir::exists?(@@home_directory)
       Dir::mkdir(@@home_directory)
     end
     Dir::chdir(@@home_directory)
+
+    if daemon
+      Process.daemon(true, true)
+      File.open(@@pid_file, "w") {|f| f.puts Process.pid}
+    end
 
     @db ||= SQLite3::Database.new(@@database)
     db_init

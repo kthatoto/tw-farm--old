@@ -19,25 +19,28 @@ module Termworld
 
     desc "farming", "Farming"
     def farming
-      init
+      # Process.daemon(true, true)
+      # @@pid = Process.pid
+      init(true)
       Signal.trap(:INT)  {@killed = true}
       Signal.trap(:TERM) {@killed = true}
       loop do
         @db.execute("update plants set growth = growth + 1 where growth < 30")
-        puts "growing..."
-
-        6.times do
-          break if @killed
-          sleep 0.5
-        end
+        sleep 3
         break if @killed
       end
-      puts "\033[2K\rStopped growing"
+    end
+
+    desc "stop", "Stop farming"
+    def stop
+      home_directory = Setup.class_eval("@@home_directory")
+      farming_pid_file = Setup.class_eval("@@farming_pid_file")
+      `kill $(cat ~/#{home_directory}/#{farming_pid_file})`
     end
 
     no_commands do
-      def init
-        @setup = Setup.new
+      def init(daemon = false)
+        @setup = Setup.new(daemon)
         @user = @setup.get_user
         @db = @setup.get_db
       end
