@@ -5,22 +5,28 @@ class Setup
   @@home_directory = ".termworld"
   @@config_file = "config.yml"
   @@database = "termworld.db"
-  def self.init(db)
+  def initialize
     Dir::chdir(Dir::home)
     unless Dir::exists?(@@home_directory)
       Dir::mkdir(@@home_directory)
     end
     Dir::chdir(@@home_directory)
 
-    @db ||= db
+    @db ||= SQLite3::Database.new(@@database)
     db_init
     config_init
     get_user
-    return @user
+    return {
+      user: @user,
+      db: @db,
+    }
   end
 
-  private
+  def get_db
+    return @db
+  end
   def get_user
+    return @user if @user
     user_data = @db.execute("select id, seeds, money from users where id = ?", @user_id)[0]
     @user = {
       id: user_data[0],
