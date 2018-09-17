@@ -30,7 +30,7 @@ module Termworld
       @db.execute("delete from plants where user_id = ? and growth >= ?", @user[:id], 30)
       earning_money = 10 * grown_plants_num
       @db.execute(
-        "update users set money = money + ? where user_id = ?", earning_money, @user[:id]
+        "update users set money = money + ? where id = ?", earning_money, @user[:id]
       )
       puts "Harvested #{grown_plants_num} plants!"
       puts "and You have earned #{earning_money} money!"
