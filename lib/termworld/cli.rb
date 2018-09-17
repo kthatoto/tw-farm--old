@@ -32,8 +32,8 @@ module Termworld
       @db.execute(
         "update users set money = money + ? where id = ?", earning_money, @user[:id]
       )
-      twputs "Harvested #{grown_plants_num} plants!"
-      twputs "and You have earned #{earning_money} money!"
+      twputs "Harvested \e[32m#{grown_plants_num} plants\e[0m!"
+      twputs "and You have earned \e[32m#{earning_money} money\e[0m!"
     end
 
     desc "check", "Check plants status"
