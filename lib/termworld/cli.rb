@@ -34,6 +34,10 @@ module Termworld
       home_directory = Setup.class_eval("@@home_directory")
       farming_pid_file = Setup.class_eval("@@farming_pid_file")
       pid_path = "~/#{home_directory}/#{farming_pid_file}"
+      if File.exists?(pid_path)
+        puts "Farming not working..."
+        return
+      end
       `kill $(cat #{pid_path})`
       `rm #{pid_path}`
       puts "Stopped farming!"
