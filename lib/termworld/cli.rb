@@ -57,6 +57,14 @@ module Termworld
       end
     end
 
+    desc "status", "Show user status"
+    def status
+      init
+      twputs "User"
+      twputs "  seeds: #{@user[:seeds]}"
+      twputs "  money: #{@user[:money]}"
+    end
+
     desc "farming", "Farming"
     def farming
       init(true)
