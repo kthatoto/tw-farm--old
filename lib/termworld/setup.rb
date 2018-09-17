@@ -14,6 +14,10 @@ class Setup
     Dir::chdir(@@home_directory)
 
     if daemon
+      if File.exists?(@@farming_pid_file)
+        puts "Already farming!"
+        exit
+      end
       Process.daemon(true, true)
       File.open(@@farming_pid_file, "w") {|f| f.puts Process.pid}
     end
