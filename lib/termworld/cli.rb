@@ -36,6 +36,7 @@ module Termworld
       pid_path = "~/#{home_directory}/#{farming_pid_file}"
       `kill $(cat #{pid_path})`
       `rm #{pid_path}`
+      puts "Stopped farming!"
     end
 
     no_commands do
