@@ -40,15 +40,20 @@ module Termworld
     def check
       init
       first = true
+      exist_plants = false
       @db.execute("select id, growth from plants where user_id = ?", @user[:id]).each do |row|
         o = "plant: #{row[1]}/30"
         o.concat(" \e[32mharvestable!\e[0m") if row[1] == 30
         if first
+          exist_plants = true
           first = false
           twputs o
         else
           tweputs o
         end
+      end
+      unless exist_plants
+        twputs "No plants..."
       end
     end
 
