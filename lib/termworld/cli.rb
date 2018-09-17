@@ -19,8 +19,6 @@ module Termworld
 
     desc "farming", "Farming"
     def farming
-      # Process.daemon(true, true)
-      # @@pid = Process.pid
       init(true)
       Signal.trap(:INT)  {@killed = true}
       Signal.trap(:TERM) {@killed = true}
@@ -35,7 +33,9 @@ module Termworld
     def stop
       home_directory = Setup.class_eval("@@home_directory")
       farming_pid_file = Setup.class_eval("@@farming_pid_file")
-      `kill $(cat ~/#{home_directory}/#{farming_pid_file})`
+      pid_path = "~/#{home_directory}/#{farming_pid_file}"
+      `kill $(cat #{pid_path})`
+      `rm #{pid_path}`
     end
 
     no_commands do

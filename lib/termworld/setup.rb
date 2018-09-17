@@ -15,7 +15,7 @@ class Setup
 
     if daemon
       Process.daemon(true, true)
-      File.open(@@pid_file, "w") {|f| f.puts Process.pid}
+      File.open(@@farming_pid_file, "w") {|f| f.puts Process.pid}
     end
 
     @db ||= SQLite3::Database.new(@@database)
