@@ -32,8 +32,21 @@ module Termworld
       @db.execute(
         "update users set money = money + ? where id = ?", earning_money, @user[:id]
       )
-      twputs "Harvested \e[32m#{grown_plants_num} plants\e[0m!"
-      twputs "and You have earned \e[32m#{earning_money} money\e[0m!"
+      twputs "Harvested #{green(grown_plants_num.to_s + " plants")}!"
+      twputs "and You have earned #{green(earning_money.to_s + " money")}!"
+    end
+
+    desc "buy", "Buy seed"
+    def buy
+      seed_price = 5
+      unless @user[:money] >= seed_price
+        twputs "Not enough money..."
+        twputs "Price of seed is #{seed_price} money"
+      end
+      @db.execute(
+        "update users set money = money - #{seed_price}, money = money - 5 where id = ?",
+        @user[:id]
+      )
     end
 
     desc "check", "Check plants status"
@@ -43,7 +56,7 @@ module Termworld
       exist_plants = false
       @db.execute("select id, growth from plants where user_id = ?", @user[:id]).each do |row|
         o = "plant: #{row[1]}/30"
-        o.concat(" \e[32mharvestable!\e[0m") if row[1] == 30
+        o.concat(" " + green("harvestable!")) if row[1] == 30
         if first
           exist_plants = true
           first = false
@@ -68,7 +81,7 @@ module Termworld
       home_directory = Setup.class_eval("@@home_directory")
       farming_pid_file = Setup.class_eval("@@farming_pid_file")
       pid_path = "#{Dir::home}/#{home_directory}/#{farming_pid_file}"
-      farming_status = File.exists?(pid_path) ? "\e[32mWorking!\e[0m" : "Not working..."
+      farming_status = File.exists?(pid_path) ? green("Working!") : "Not working..."
       twputs "  #{farming_status}"
     end
 
