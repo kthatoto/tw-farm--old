@@ -15,10 +15,10 @@ class Setup
 
     if daemon
       if File.exists?(@@farming_pid_file)
-        puts "Already farming..."
+        twputs "Already farming..."
         exit
       end
-      puts "Starting farming!"
+      twputs "Starting farming!"
       Process.daemon(true, true)
       File.open(@@farming_pid_file, "w") {|f| f.puts Process.pid}
     end
