@@ -38,15 +38,17 @@ module Termworld
 
     desc "buy", "Buy seed"
     def buy
+      init
       seed_price = 5
       unless @user[:money] >= seed_price
         twputs "Not enough money..."
         twputs "Price of seed is #{seed_price} money"
       end
       @db.execute(
-        "update users set money = money - #{seed_price}, money = money - 5 where id = ?",
+        "update users set money = money - #{seed_price}, seeds = seeds + 1 where id = ?",
         @user[:id]
       )
+      twputs "You have bought seed!"
     end
 
     desc "check", "Check plants status"
