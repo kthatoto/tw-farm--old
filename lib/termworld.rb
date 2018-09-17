@@ -1,7 +1,7 @@
 require "termworld/version"
 require "termworld/cli"
 require "termworld/setup"
-require "termworld/utils"
+require "utils"
 
 module Termworld
 end
