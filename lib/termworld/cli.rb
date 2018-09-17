@@ -40,12 +40,14 @@ module Termworld
     def check
       init
       first = true
-      @db.execute("select id, growth from plants where user_id = ?", @user[:id])[0].each do |row|
+      @db.execute("select id, growth from plants where user_id = ?", @user[:id]).each do |row|
+        o = "plant: #{row[1]}/30"
+        o.concat(" \e[32mharvestable!\e[0m") if row[1] == 30
         if first
           first = false
-          twputs "plant: #{row[1]}/30"
+          twputs o
         else
-          tweputs "plant: #{row[1]}/30"
+          tweputs o
         end
       end
     end
