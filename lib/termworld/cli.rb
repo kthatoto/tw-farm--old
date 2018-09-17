@@ -2,6 +2,8 @@ require "termworld"
 require "thor"
 require "sqlite3"
 
+require "./setup"
+
 module Termworld
   class CLI < Thor
 
@@ -21,34 +23,8 @@ module Termworld
 
     no_commands do
       def init
-        Dir::chdir(Dir::home)
-        unless Dir::exists?(".termworld")
-          Dir::mkdir(".termworld")
-        end
-        Dir::chdir(".termworld")
-
-        db_init
-      end
-
-      def db_init
-        db = SQLite3::Database.new "termworld.db"
-        tables = [
-          "create table users (\n" +
-          "  id integer primary key,\n" +
-          "  seeds integer default 0,\n" +
-          "  money integer default 0\n" +
-          ");",
-
-          "create table plants (\n" +
-          "  id integer primary key,\n" +
-          "  growth integer default 0\n" +
-          ");",
-        ]
-        tables.each do |table|
-          table_name = table.split(" ")[2]
-          current_schema = `sqlite3 termworld.db '.schema #{table_name}'`
-          db.execute(table) if current_schema.empty?
-        end
+        @db ||= SQLite3::Database.new(@@database)
+        @user = Setup.init(@db)
       end
     end
   end

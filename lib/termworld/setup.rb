@@ -1,0 +1,65 @@
+require "sqlite3"
+require "yaml"
+
+class Setup
+  @@home_directory = ".termworld"
+  @@config_file = "config.yml"
+  @@database = "termworld.db"
+  def self.init(db)
+    Dir::chdir(Dir::home)
+    unless Dir::exists?(@@home_directory)
+      Dir::mkdir(@@home_directory)
+    end
+    Dir::chdir(@@home_directory)
+
+    @db ||= db
+    db_init
+    config_init
+    get_user
+    return @user
+  end
+
+  private
+  def get_user
+    user_data = @db.execute("select id, seeds, money from users where id = ?", @user_id)[0]
+    @user = {
+      id: user_data[0],
+      seeds: user_data[1],
+      money: user_data[2],
+    }
+  end
+  def config_init
+    unless File.exists?(@@config_file)
+      File.open(@@config_file, "w") do |f|
+        @user_id ||= 1
+        f.puts({"user_id" => @user_id}.to_yaml)
+      end
+    end
+    config = YAML.load_file("./#{@@config_file}")
+    @user_id ||= config["user_id"]
+  end
+  def db_init
+    tables = [
+      "create table users (\n" +
+      "  id integer primary key,\n" +
+      "  seeds integer default 0,\n" +
+      "  money integer default 0\n" +
+      ")",
+
+      "create table plants (\n" +
+      "  id integer primary key,\n" +
+      "  growth integer default 0,\n" +
+      "  user_id integer\n" +
+      ")",
+    ]
+    tables.each do |table|
+      table_name = table.split(" ")[2]
+      current_schema = `sqlite3 #{@@database} '.schema #{table_name}'`
+      @db.execute(table) if current_schema.empty?
+    end
+    unless @db.execute("select id from users")[0]
+      @db.execute("insert into users (id, seeds, money) values (1, 3, 100)")
+      @user_id = 1
+    end
+  end
+end
