@@ -27,14 +27,19 @@ module Termworld
         end
         Dir::chdir(".termworld")
         db = SQLite3::Database.new "termworld.db"
-        tables = <<-SQL
-          create table users (id integer primary key);
-          create table plants (
-            id integer primary key,
-            growth integer default 0
-          );
-        SQL
-        db.execute(tables)
+        tables = [
+          "create table users (\n  id integer primary key\n);",
+          "create table plants (\n" +
+          "  id integer primary key,\n" +
+          "  growth integer default 0\n" +
+          ");",
+        ]
+        tables.each do |table|
+          table_name = table.split(" ")[2]
+          current_schema = `sqlite3 termworld.db '.schema #{table_name}'`
+          pp current_schema.empty?
+          # db.execute(table)
+        end
       end
     end
   end
