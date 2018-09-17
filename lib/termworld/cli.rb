@@ -5,7 +5,7 @@ require "sqlite3"
 module Termworld
   class CLI < Thor
 
-    desc "plant", "Plang seed"
+    desc "plant", "Plant seed"
     def plant
       init
       if @user[:seeds] <= 0
@@ -15,6 +15,25 @@ module Termworld
       @db.execute("insert into plants (growth, user_id) values (0, ?)", @user[:id])
       @db.execute("update users set seeds = seeds - 1 where id = ?", @user[:id])
       puts "Planted!"
+    end
+
+    desc "harvest", "Harvest all grown plants"
+    def harvest
+      init
+      grown_plants_num = @db.execute(
+        "select count(*) from plants where user_id = ? and growth >= ?", @user[:id], 30
+      )[0][0]
+      if grown_plants_num == 0
+        puts "No grown plants..."
+        return
+      end
+      @db.execute("delete from plants where user_id = ? and growth >= ?", @user[:id], 30)
+      earning_money = 10 * grown_plants_num
+      @db.execute(
+        "update users set money = money + ? where user_id = ?", earning_money, @user[:id]
+      )
+      puts "Harvested #{grown_plants_num} plants!"
+      puts "and You have earned #{earning_money} money!"
     end
 
     desc "farming", "Farming"
