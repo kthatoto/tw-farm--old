@@ -7,7 +7,7 @@ module Termworld
     desc "plant", "Plang seed"
     def plant
       init
-      puts "Planted!"
+      puts "Planted!!"
     end
 
     no_commands do
