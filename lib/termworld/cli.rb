@@ -3,7 +3,7 @@ require "thor"
 
 module Termworld
   class CLI < Thor
-    desc "For test"
+    desc "helloworld", "say helloworld"
     def helloworld
       puts `pwd`
     end
