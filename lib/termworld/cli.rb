@@ -36,6 +36,20 @@ module Termworld
       twputs "and You have earned #{earning_money} money!"
     end
 
+    desc "check", "Check plants status"
+    def check
+      init
+      first = true
+      @db.execute("select id, growth from plants where user_id = ?", @user[:id])[0].each do |row|
+        if first
+          first = false
+          twputs "plant: #{row[1]}/30"
+        else
+          tweputs "plant: #{row[1]}/30"
+        end
+      end
+    end
+
     desc "farming", "Farming"
     def farming
       init(true)
