@@ -60,9 +60,16 @@ module Termworld
     desc "status", "Show user status"
     def status
       init
-      twputs "User"
+      twputs "#User"
       twputs "  seeds: #{@user[:seeds]}"
       twputs "  money: #{@user[:money]}"
+      twputs "#Farming"
+
+      home_directory = Setup.class_eval("@@home_directory")
+      farming_pid_file = Setup.class_eval("@@farming_pid_file")
+      pid_path = "#{Dir::home}/#{home_directory}/#{farming_pid_file}"
+      farming_status = File.exists?(pid_path) ? "\e[32mWorking!\e[0m" : "Not working..."
+      twputs "  #{farming_status}"
     end
 
     desc "farming", "Farming"
