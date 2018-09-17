@@ -33,8 +33,8 @@ module Termworld
     def stop
       home_directory = Setup.class_eval("@@home_directory")
       farming_pid_file = Setup.class_eval("@@farming_pid_file")
-      pid_path = "~/#{home_directory}/#{farming_pid_file}"
-      if File.exists?(pid_path)
+      pid_path = "#{Dir::home}/#{home_directory}/#{farming_pid_file}"
+      unless File.exists?(pid_path)
         puts "Farming not working..."
         return
       end
