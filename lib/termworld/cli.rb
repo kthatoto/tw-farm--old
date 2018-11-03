@@ -94,7 +94,7 @@ module Termworld
       Signal.trap(:TERM) {@killed = true}
       loop do
         @db.execute("update plants set growth = growth + 1 where growth < 30")
-        sleep 3
+        sleep 0.5
         break if @killed
       end
     end
