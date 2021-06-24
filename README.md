@@ -24,8 +24,10 @@ docker> $ termworld plant
 # Plant 1 seed
 
 docker> $ termworld check
-# Check plants status
+# Check plants status, and wait a minute
 
 docker> $ termworld harvest
 # Harvest mature plants
+
+# Then repeat `buy` -> `plant` -> `check` -> `harvest` to earn money!
 ```
