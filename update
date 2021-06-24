@@ -1,2 +1,0 @@
-#!/bin/bash
-gem specific_install -l https://github.com/kthatoto/termworld

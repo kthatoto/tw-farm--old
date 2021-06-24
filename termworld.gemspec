@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "Game on Terminal World"
   spec.description   = "Game on Terminal World"
-  spec.homepage      = "https://github.com/kthatoto/termworld"
+  spec.homepage      = "https://github.com/kthatoto/tw-farm--old"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -34,7 +34,6 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.16"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
 
   spec.add_dependency "thor"
   spec.add_dependency "sqlite3"
