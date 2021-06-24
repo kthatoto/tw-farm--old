@@ -8,3 +8,9 @@ host> $ docker run --rm -it tw-farm-old
 ```
 docker> $ termworld
 ```
+
+## How to Play
+```
+docker> $ termworld farming # Run game worker
+docker> $ termworld
+```

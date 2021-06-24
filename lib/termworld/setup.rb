@@ -72,8 +72,7 @@ class Setup
     begin
       tables.each do |table|
         table_name = table.split(" ")[2]
-        current_schema = `sqlite3 #{@@database} '.schema #{table_name}'`
-        @db.execute(table) if current_schema.empty?
+        @db.execute(table)
       end
     rescue
     end
