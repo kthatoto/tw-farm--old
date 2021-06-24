@@ -1,33 +1,33 @@
 # Termworld Farm (Old version)
 
 ## How to Run
-```
+```bash
 host> $ docker build -t tw-farm-old .
 host> $ docker run --rm -it tw-farm-old
 ```
 
 ## How to Play
-```
+```bash
+# 0. List commands
 docker> $ termworld
-# List commands
 
+# 1. Start game worker
 docker> $ termworld farming
-# Start game worker
 
+# 2. Check status. You can see seeds and money
 docker> $ termworld status
-# Check status. You can see seeds and money
 
+# 3. Buy 1 seed for 5 money
 docker> $ termworld buy
-# Buy 1 seed for 5 money
 
+# 4. Plant 1 seed
 docker> $ termworld plant
-# Plant 1 seed
 
+# 5.  Check plants status, and wait a minute
 docker> $ termworld check
-# Check plants status, and wait a minute
 
+# 6. Harvest mature plants
 docker> $ termworld harvest
-# Harvest mature plants
 
 # Then repeat `buy` -> `plant` -> `check` -> `harvest` to earn money!
 ```
