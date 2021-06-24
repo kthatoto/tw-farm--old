@@ -6,7 +6,7 @@ host> $ docker build -t tw-farm-old .
 host> $ docker run --rm -it tw-farm-old
 ```
 
-## How to Play (Run 
+## How to Play
 ```bash
 # 0. List commands
 docker> $ termworld
