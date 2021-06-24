@@ -69,10 +69,13 @@ class Setup
       "  user_id integer\n" +
       ")",
     ]
-    tables.each do |table|
-      table_name = table.split(" ")[2]
-      current_schema = `sqlite3 #{@@database} '.schema #{table_name}'`
-      @db.execute(table) if current_schema.empty?
+    begin
+      tables.each do |table|
+        table_name = table.split(" ")[2]
+        current_schema = `sqlite3 #{@@database} '.schema #{table_name}'`
+        @db.execute(table) if current_schema.empty?
+      end
+    rescue
     end
     unless @db.execute("select id from users")[0]
       @db.execute("insert into users (id, seeds, money) values (1, 3, 100)")
