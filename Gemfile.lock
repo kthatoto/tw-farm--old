@@ -8,7 +8,7 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    rake (10.5.0)
+    rake (13.0.3)
     sqlite3 (1.4.2)
     thor (1.1.0)
 
@@ -17,7 +17,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler
-  rake (~> 10.0)
+  rake (~> 13.0)
   termworld!
 
 BUNDLED WITH
